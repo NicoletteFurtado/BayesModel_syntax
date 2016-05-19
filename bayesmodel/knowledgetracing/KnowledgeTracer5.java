@@ -33,6 +33,8 @@ public class KnowledgeTracer5 {
 		}
 		// add syntax to wordToValue
 		wordToValueMap.put(Constants.SYNTAX, skillMap.get(Constants.SYNTAX).get(0));
+		// add syntax_pronoun to wordToValue
+		wordToValueMap.put(Constants.SYNTAX_PRONOUN, skillMap.get(Constants.SYNTAX_PRONOUN).get(0));
 		System.out.println(wordToValueMap);
 
 		LinkedHashMap<String, ArrayList<String>> actionMap = new LinkedHashMap<String, ArrayList<String>>();
@@ -56,9 +58,6 @@ public class KnowledgeTracer5 {
 		String currVerification = "";
 
 		for (int i = 0; i < studentLogData.getVerificationList().size(); i++) {
-			// get the current sentence and action
-			// System.out.println("i=" + i);
-			// System.out.println(Arrays.toString(studentLogData.getSentenceList().toArray()));
 			currSentence = studentLogData.getSentenceList().get(i);
 			currAction = studentLogData.getActionList().get(i);
 			currUserStep = studentLogData.getUserStep().get(i);
@@ -130,9 +129,7 @@ public class KnowledgeTracer5 {
 			LinkedHashMap<String, ArrayList<String>> inputDataMap,
 			LinkedHashMap<String, ArrayList<String>> verificationMap, InitMaps initMaps, StudentLogData student) {
 		double prevSkillValue = 0.0;
-		int prevUserStep = 0;
 		String prevInputData = "";
-		String prevAction = "";
 		double newSkill = 0.0;
 		double skillEvaluated = 0.0;
 		HashSet<String> playWordSet;
@@ -144,7 +141,6 @@ public class KnowledgeTracer5 {
 			// for each step update each skill
 			System.err.println("/////////// " + sentence);
 			// get local arrayLists
-			ArrayList<String> tempSentenceList = sentenceMap.get(sentence);
 			ArrayList<String> tempActionList = actionMap.get(sentence);
 			ArrayList<Integer> tempUserStepList = userStepMap.get(sentence);
 			ArrayList<String> tempInputDataList = inputDataMap.get(sentence);
@@ -318,60 +314,27 @@ public class KnowledgeTracer5 {
 	// set false for the word that the student got wrong
 	private HashMap<String, Boolean> checkIncorrectSkill2(StudentLogData student, InitMaps initMaps, String sentence,
 			String wordsMoved, int userStep) {
-		// System.err.println("entreed check incorrect 2");
-		// String objectsMoved[] = student.getInputData().get(count).split(Constants.STUDENT_INPUT_DATA_SEPARATOR);
 		String objectsMoved[] = wordsMoved.split(Constants.STUDENT_INPUT_DATA_SEPARATOR);
 		System.out.println("///////// " + userStep);
 		HashMap<String, Boolean> wordToVerif = null;
 		if (initMaps.getSentenceToActions().get(AnalysisUtil.convertStringToKey(sentence)).size() >= userStep) {
 			ArrayList<String> actionWords = initMaps.getSentenceToActions()
 					.get(AnalysisUtil.convertStringToKey(sentence)).get(userStep - 1);
-			for (int i = 0; i < objectsMoved.length; i++) {
-				if (objectsMoved[i].contains("pen1") || objectsMoved[i].contains("pen2")
-						|| objectsMoved[i].contains("pen3") || objectsMoved[i].contains("pen4")) {
-					objectsMoved[i] = "pen";
-				} else if (objectsMoved[i].contains("corralDoor") || objectsMoved[i].contains("corralArea")) {
-					objectsMoved[i] = "corral";
-				} else if (objectsMoved[i].contains("pumpkinPatch") || objectsMoved[i].contains("pumpkin")) {
-					objectsMoved[i] = "pumpkins";
-				} else if (objectsMoved[i].contains("farmerFall")) {
-					objectsMoved[i] = "farmer";
-				} else if (objectsMoved[i].contains("nearGoat")) {
-					objectsMoved[i] = "goat";
-				}
-			}
+			// go through and change input data words if needed
+			processInputData(objectsMoved);
 			// HashMap<String, Boolean> wordToVerif = new HashMap<String, Boolean>();
 			wordToVerif = new HashMap<String, Boolean>();
-			if (objectsMoved.length == 1) {
+			if (objectsMoved.length == 1) { // consider help request as incorrect
 				wordToVerif.put(objectsMoved[0].trim(), false);
 			} else if (objectsMoved.length > 1) {
 				System.err.println("objects moved " + Arrays.toString(objectsMoved));
-				// String currSentence = student.getSentenceList().get(count);
 				// List of correct words for that step
 				System.out.println("userStep " + userStep);
-				// ArrayList<String> actionWords = initMaps.getSentenceToActions()
-				// .get(AnalysisUtil.convertStringToKey(sentence)).get(userStep - 1);
-				// student.getUserStep().get(userStep) - 1
 				System.err.println("actionWords " + Arrays.toString(actionWords.toArray()));
-				// String currSentence = student.getSentenceList().get(count);
-				// HashMap<String, Boolean> wordToVerif = new HashMap<String, Boolean>();
-				// add syntax to wordToVerif defalut false
+				// add syntax to wordToVerif default false
 				wordToVerif.put(Constants.SYNTAX, false);
-				// case for pen
-				// for (int i = 0; i < objectsMoved.length; i++) {
-				// if (objectsMoved[i].contains("pen1") || objectsMoved[i].contains("pen2")
-				// || objectsMoved[i].contains("pen3") || objectsMoved[i].contains("pen4")) {
-				// objectsMoved[i] = "pen";
-				// } else if (objectsMoved[i].contains("corralDoor") || objectsMoved[i].contains("corralArea")) {
-				// objectsMoved[i] = "corral";
-				// } else if (objectsMoved[i].contains("pumpkinPatch") || objectsMoved[i].contains("pumpkin")) {
-				// objectsMoved[i] = "pumpkins";
-				// } else if (objectsMoved[i].contains("farmerFall")) {
-				// objectsMoved[i] = "farmer";
-				// } else if (objectsMoved[i].contains("nearGoat")) {
-				// objectsMoved[i] = "goat";
-				// }
-				// }
+				// add syntax pronoun to wordToVerif default false
+				wordToVerif.put(Constants.SYNTAX_PRONOUN, false);
 				// get the action for this step
 				for (int i = 0; i < actionWords.size(); i++) {
 					if (actionWords.get(i).equalsIgnoreCase(objectsMoved[i])) {
@@ -389,23 +352,69 @@ public class KnowledgeTracer5 {
 					}
 				}
 				// check if all words in actionWords are present in objectsMoved
-				int flag = 99;
-				for (int i = 0; i < objectsMoved.length; i++) {
-					if (actionWords.contains(objectsMoved[i])) {
-						flag = 1;
-					} else {
-						flag = 0;
-						break;
-					}
+				wordToVerif.put(Constants.SYNTAX, checkForSyntaxError(objectsMoved, actionWords));
+				// check for syntax pronoun error
+				if (checkForFarmerPronoun(sentence, initMaps)) {
+					wordToVerif.put(Constants.SYNTAX_PRONOUN, checkForPronounError(objectsMoved, sentence, initMaps));
 				}
-				if (flag == 1)
-					wordToVerif.put(Constants.SYNTAX, true);
-				else if (flag == 0)
-					wordToVerif.put(Constants.SYNTAX, false);
-				else
-					System.err.println("flag=" + flag);
 			}
 		}
 		return wordToVerif;
+	}
+
+	private void processInputData(String objectsMoved[]) {
+		for (int i = 0; i < objectsMoved.length; i++) {
+			if (objectsMoved[i].contains("pen1") || objectsMoved[i].contains("pen2")
+					|| objectsMoved[i].contains("pen3") || objectsMoved[i].contains("pen4")) {
+				objectsMoved[i] = "pen";
+			} else if (objectsMoved[i].contains("corralDoor") || objectsMoved[i].contains("corralArea")) {
+				objectsMoved[i] = "corral";
+			} else if (objectsMoved[i].contains("pumpkinPatch") || objectsMoved[i].contains("pumpkin")) {
+				objectsMoved[i] = "pumpkins";
+			} else if (objectsMoved[i].contains("farmerFall")) {
+				objectsMoved[i] = "farmer";
+			} else if (objectsMoved[i].contains("nearGoat")) {
+				objectsMoved[i] = "goat";
+			}
+		}
+	}
+
+	private boolean checkForPronounError(String objectsMoved[], String sentence, InitMaps initMaps) {
+		// String sentenceText = initMaps.getSentenceToText().get(AnalysisUtil.convertStringToKey(sentence));
+		boolean flag = false;
+		for (String word : objectsMoved) {
+			if (initMaps.getSentenceToWords().get(AnalysisUtil.convertStringToKey(sentence)).contains(word)) {
+				flag = true;
+			} else {
+				flag = false;
+				break;
+			}
+		}
+		return flag;
+	}
+
+	private boolean checkForSyntaxError(String objectsMoved[], ArrayList<String> actionWords) {
+		int flag = 99;
+		for (int i = 0; i < objectsMoved.length; i++) {
+			if (actionWords.contains(objectsMoved[i])) {
+				flag = 1;
+			} else {
+				flag = 0;
+				break;
+			}
+		}
+		if (flag == 1)
+			return true;
+		return false;
+	}
+
+	private boolean checkForFarmerPronoun(String sentence, InitMaps initMaps) {
+		String sentenceText = initMaps.getSentenceToText().get(AnalysisUtil.convertStringToKey(sentence));
+		for (String word : sentenceText.split(" ")) {
+			if (word.equals(Constants.FARMER_PRONOUN)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
