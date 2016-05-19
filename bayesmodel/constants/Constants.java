@@ -1,4 +1,5 @@
 package bayesmodel.constants;
+
 public class Constants {
 	public static String CSV_FILE_SEPARATOR = ",";
 	public static String STUDENT_INPUT_DATA_SEPARATOR = " ";
@@ -18,16 +19,18 @@ public class Constants {
 	public static String AUDIO_E = "E";
 	public static String AUDIO_FILE_ENDING = "E.m4a";
 	public static String SYNTAX = "Syntax";
+	public static String SYNTAX_PRONOUN = "SyntaxPronoun";
+	public static String FARMER_PRONOUN = "He";
 
 	public static int CLEANING_UP_SENTENCES_TOTAL = 11;
 	public static double INITIAL_SKILL_VALUE = 0.35;
 
 	// files
-	public static String STUDENT_LOG_DATA = "C:\\Users\\Nicolette\\OneDrive\\Documents\\EMBRACE\\Analysis\\With user step\\log data by student\\log data with play word\\log_data_E0237EE.csv";
-	public static String OUTPUT_FILE = "C:\\Users\\Nicolette\\OneDrive\\Documents\\EMBRACE\\Analysis\\With user step\\outputs\\BayesModel_user_step_play_word\\output_E0237EE_pw.csv";
-	public static String INPUT_DATA = "inputdata/input_data_E0237EE_pw"; // moves
-	public static String ACTION_FILE = "the_best_farm_actions.properties";
-	public static String WORDS_FILE = "the_best_farm_words.properties";
+	public static String STUDENT_LOG_DATA = "C:\\Users\\Nicolette\\OneDrive\\Documents\\EMBRACE\\Analysis\\With user step\\log data by student\\log data with play word\\log_data_B005EE.csv";
+	public static String OUTPUT_FILE = "C:\\Users\\Nicolette\\OneDrive\\Documents\\EMBRACE\\Analysis\\With user step\\outputs\\BayesModel_user_step_play_word\\output_B005EE_pw_2.csv";
+	public static String INPUT_DATA = "inputdata/input_data_B005EE_pw.txt"; // moves
+	public static String ACTION_FILE = "actions/the_best_farm_actions.properties";
+	public static String WORDS_FILE = "wordsInActions/the_best_farm_words.properties";
 
 	// error statistics
 	public static String HELP_REQUEST_ENDING = "S";

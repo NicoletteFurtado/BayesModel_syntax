@@ -81,14 +81,24 @@ public class MainClass {
 				skillList.add(skill);
 				skillMap.put(word, skillList);
 			}
+			Skill skill;
+			ArrayList<Skill> skillList;
 			// add syntax as a skill
-			Skill skill = new Skill();
+			skill = new Skill();
 			skill.setWord(Constants.SYNTAX);
 			skill.setAction(Constants.DEFAULT_ACTION);
 			skill.setSkillValue(Constants.INITIAL_SKILL_VALUE);
-			ArrayList<Skill> skillList = new ArrayList<Skill>();
+			skillList = new ArrayList<Skill>();
 			skillList.add(skill);
 			skillMap.put(Constants.SYNTAX, skillList);
+			// add syntax_pronoun as a skill
+			skill = new Skill();
+			skill.setWord(Constants.SYNTAX_PRONOUN);
+			skill.setAction(Constants.DEFAULT_ACTION);
+			skill.setSkillValue(Constants.INITIAL_SKILL_VALUE);
+			skillList = new ArrayList<Skill>();
+			skillList.add(skill);
+			skillMap.put(Constants.SYNTAX_PRONOUN, skillList);
 			// }
 			// skillMap.put(sentence, new ArrayList<Skill>());
 		}
