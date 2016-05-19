@@ -64,6 +64,8 @@ public class OutputLists {
 		}
 		// add syntax as a word
 		wordList.add(Constants.SYNTAX);
+		// add syntax as a word
+		wordList.add(Constants.SYNTAX_PRONOUN);
 		// System.out.println("word list1=" + Arrays.toString(wordList.toArray()));
 		// System.out.println("Done with words");
 	}
