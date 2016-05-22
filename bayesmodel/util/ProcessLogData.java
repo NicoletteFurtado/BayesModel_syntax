@@ -54,11 +54,6 @@ public class ProcessLogData {
 		student.setUserStep(userStepNew);
 		student.setInputData(inputDataNew);
 		UPDATED_lIST_SIZE = sentenceListNew.size();
-		// System.out.println("first attempt=" + Arrays.toString(student.getUserStep().toArray()));
-		// System.out.println("first attempt=" + student.getVerificationList().size());
-		// System.out.println("first attempt input data=" + student.getInputData().size());
-		// System.out.println("first attempt=" + Arrays.toString(student.getInputData().toArray()));
-		// System.out.println("first attempt=" + Arrays.toString(student.getSentenceList().toArray()));
 	}
 
 	public void repeatAttempts2(StudentLogData student, InitMaps initMaps) {
@@ -116,6 +111,30 @@ public class ProcessLogData {
 				inputDataNew.add(currInputData);
 				// System.out.println("play word step " + currUserStep + "of sentence " + currSentence + " for word "
 				// + currInputData);
+			}
+			// check if sentence contains he
+			if (AnalysisUtil.checkIfSentenceContainsWord(currSentence, Constants.FARMER_PRONOUN, initMaps)) {
+				sentenceListNew.add(currSentence);
+				verificationListNew.add(currVerification);
+				actionListNew.add(currAction);
+				userStepNew.add(currUserStep);
+				inputDataNew.add(currInputData);
+			}
+			// check if sentence contains s
+			if (AnalysisUtil.checkIfSentenceContainsWord(currSentence, Constants.POSSESSION, initMaps)) {
+				sentenceListNew.add(currSentence);
+				verificationListNew.add(currVerification);
+				actionListNew.add(currAction);
+				userStepNew.add(currUserStep);
+				inputDataNew.add(currInputData);
+			}
+			// check if sentence contains pen for usability_error
+			if (AnalysisUtil.checkIfSentenceContainsWord(currSentence, Constants.PEN, initMaps)) {
+				sentenceListNew.add(currSentence);
+				verificationListNew.add(currVerification);
+				actionListNew.add(currAction);
+				userStepNew.add(currUserStep);
+				inputDataNew.add(currInputData);
 			}
 			// }
 			// }

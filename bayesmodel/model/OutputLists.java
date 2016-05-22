@@ -66,6 +66,10 @@ public class OutputLists {
 		wordList.add(Constants.SYNTAX);
 		// add syntax as a word
 		wordList.add(Constants.SYNTAX_PRONOUN);
+		// add syntaxpossession as a word
+		wordList.add(Constants.SYNTAX_POSSESSION);
+		// add usability_error as a word
+		wordList.add(Constants.USABILITY_ERROR);
 		// System.out.println("word list1=" + Arrays.toString(wordList.toArray()));
 		// System.out.println("Done with words");
 	}

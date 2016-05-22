@@ -99,6 +99,22 @@ public class MainClass {
 			skillList = new ArrayList<Skill>();
 			skillList.add(skill);
 			skillMap.put(Constants.SYNTAX_PRONOUN, skillList);
+			// add syntax_possession as a skill
+			skill = new Skill();
+			skill.setWord(Constants.SYNTAX_POSSESSION);
+			skill.setAction(Constants.DEFAULT_ACTION);
+			skill.setSkillValue(Constants.INITIAL_SKILL_VALUE);
+			skillList = new ArrayList<Skill>();
+			skillList.add(skill);
+			skillMap.put(Constants.SYNTAX_POSSESSION, skillList);
+			// add usability_error as a skill
+			skill = new Skill();
+			skill.setWord(Constants.USABILITY_ERROR);
+			skill.setAction(Constants.DEFAULT_ACTION);
+			skill.setSkillValue(Constants.INITIAL_SKILL_VALUE);
+			skillList = new ArrayList<Skill>();
+			skillList.add(skill);
+			skillMap.put(Constants.USABILITY_ERROR, skillList);
 			// }
 			// skillMap.put(sentence, new ArrayList<Skill>());
 		}

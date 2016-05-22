@@ -20,7 +20,15 @@ public class Constants {
 	public static String AUDIO_FILE_ENDING = "E.m4a";
 	public static String SYNTAX = "Syntax";
 	public static String SYNTAX_PRONOUN = "SyntaxPronoun";
-	public static String FARMER_PRONOUN = "He";
+	public static String SYNTAX_POSSESSION = "SyntaxPossession";
+	public static String USABILITY_ERROR = "Usability";
+	public static String FARMER_PRONOUN = "he";
+	public static String FARMER = "farmer";
+	public static String PEN = "pen";
+	public static String POSSESSION = "s";
+
+	// wordtoVerif constants
+	public static String DO_NOTHING = "Do Nothing";
 
 	public static int CLEANING_UP_SENTENCES_TOTAL = 11;
 	public static double INITIAL_SKILL_VALUE = 0.35;
